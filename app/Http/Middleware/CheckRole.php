@@ -21,14 +21,15 @@ class CheckRole
         if($request->user()===null)
         {
             return response('Insufficient Permission',401);
+            //return redirect(route('home'));
         }
-
         $actions=$request->route()->getAction();
-        $roles=isset($actions['roles']) ? $actions['roles'] : null;
+        $roles=isset($actions['roles'])? $actions['roles'] : null;
         if($request->user()->hasAnyRole($roles) || !$roles)
         {
-            return $next($request);
+             return $next($request);
         }
-       return response('Insufficient Permission',401);
+          return response('Insufficient Permission',401);
+        //return redirect(route('home'));
     }
 }
