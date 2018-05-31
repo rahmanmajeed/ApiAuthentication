@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -74,5 +75,18 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+
+    public function useroles()
+    {
+        $data=Auth::user()->roles;
+        $role=array();
+        foreach($data as $d)
+        {
+           // echo $d->id;
+            $role[]= $d->slug;
+        }
+        return $role;
     }
 }

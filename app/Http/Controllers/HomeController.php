@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','check.roles']);
     }
 
     /**
@@ -34,8 +34,8 @@ class HomeController extends Controller
         foreach($data as $d)
         {
            // echo $d->id;
-            $role[]= $d->name;
+            $role[]= $d->slug;
         }
-        return $role;
+        return response($role);
     }
 }

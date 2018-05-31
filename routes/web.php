@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\HomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,35 +24,40 @@ Route::get('/role','HomeController@useroles')->name('user.roles');
 
 //=== Appcontroller routes part ===
 
-Route::get('/admin',[
-    'uses' => 'AppController@admin',
-    'as'   => 'adminaccess',
-    'roles'=> ['Admin'], 
-]);
-
-Route::get('/author',[
-    'uses' => 'AppController@author',
-    'as'   => 'authoraccess',
-    'roles'=> ['Author'], 
-]);
-
-Route::get('/user',[
-    "uses" => "AppController@user",
-    "as"   => "useraccess",
-    "roles"=> "HomeController@useroles", 
-]);
 
 
 
-Route::get('/user/{id}/profile',[
-    'uses' => 'AppController@userprofile',
-    'as'   =>'user.profile',
-    'roles'=>['Admin'],
-]);
+Route::group(['roles'=>['Admin']],function(){
+    Route::get('/admin',[
+        'uses' => 'AppController@admin',
+        'as'   => 'adminaccess',
+    ]);
+    Route::get('/user/{id}/profile',[
+        'uses' => 'AppController@userprofile',
+        'as'   =>'user.profile',
+       
+    ]);
+    
+    Route::post('/assign',[
+        'uses' => 'AppController@assignrole',
+        'as' => 'assign.role',
+    ]);
 
-Route::post('/assign',[
-	'uses' => 'AppController@assignrole',
-	'as' => 'assign.role',
-	'roles'=>['Admin']
-]);
+});
+
+Route::group(['roles'=>'User'],function(){
+    Route::get('/user',[
+        'uses' => 'AppController@user',
+        'as'   => 'useraccess',
+       
+    ]);
+});
+Route::group(['roles'=>'Author'],function(){
+    Route::get('/author',[
+        'uses' => 'AppController@author',
+        'as'   => 'authoraccess',
+        'roles'=> ['Author'], 
+    ]);
+
+});
 
