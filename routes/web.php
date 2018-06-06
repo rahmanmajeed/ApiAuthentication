@@ -43,6 +43,21 @@ Route::group(['roles'=>['Admin']],function(){
         'as' => 'assign.role',
     ]);
 
+    Route::get('/role-permissions',[
+        'uses' => 'AppController@role_permissions',
+        'as' => 'role.permissions',
+    ]);
+
+    Route::get('/role-id/{id}/edit',[
+        'uses' => 'AppController@role_permissions_edit',
+        'as'   => 'role.permissions.edit',
+    ]);
+
+    Route::match(['PUT','PATCH'],'/role-id/{id}/update',[
+        'uses' =>'AppController@role_permissions_update',
+        'as'   => 'role.permissions.update',
+    ]);
+
 });
 
 Route::group(['roles'=>'User'],function(){

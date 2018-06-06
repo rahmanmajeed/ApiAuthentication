@@ -16,8 +16,8 @@ class AppController extends Controller
     public function admin()
     {
         $users = User::with('roles')->get();
-    	$roles = Role::get();
-    	return view('admin',compact('users','roles'));
+      
+    	return view('admin',compact('users'));
     }
 
     public function author()
@@ -36,7 +36,8 @@ class AppController extends Controller
     public function userprofile($id)
     {
         $user = User::with('roles')->find($id);
-    	$roles = Role::get();
+        $roles = Role::all();
+        
     	return view('role_assign',compact('user','roles'));
     }
 
@@ -58,6 +59,41 @@ class AppController extends Controller
         }
         return redirect()->route('adminaccess');
 
+    }
+
+    public function role_permissions()
+    {
+        $roles=Role::all();
+        return view('permissions',compact('roles'));
+    }
+
+    public function role_permissions_edit($id)
+    {
+        $role=Role::find($id);
+     
+        
+        return view('permissions-edit',compact('role'));
+    }
+
+    public function role_permissions_update(Request $request, $id)
+    {
+        // $permit = array(
+        //     'create' => $request->permission['create'] == 'true' ? true : false,
+        //     'read' => $request->permission['read']== 'true' ? true : false,
+        //     'update' => $request->permission['update']== 'true' ? true : false,
+        //     'delete' => $request->permission['delete']== 'true' ? true : false,
+        // );
+        $permissions;
+
+        foreach ($request->permissions as $key => $value) {
+         $permissions[$key] = $value=='true' ? true : false;
+        }
+        $role=Role::find($id);
+        $role->name=$request->role;
+        $role->permissions=$permissions;
+        $role->save();
+        return redirect()->route('role.permissions');
+        
     }
 
 

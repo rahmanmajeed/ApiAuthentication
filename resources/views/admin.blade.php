@@ -6,6 +6,7 @@
 		<th>Name</th>
 		<th>E-mail</th>
 		<th>Role</th>
+        <th>Permission</th>
 		<th>Assign New Role</th>
 	    </thead>
      <tbody>
@@ -14,7 +15,17 @@
 
         <td>{{$user->name}}</td>
         <td>{{$user->email}} <input type="hidden" name="email" value="{{$user->email}}"></td>
+    
+       
+      
         <td>{{$user->roles->implode('name', ', ')}}</td>
+        <td>{{$user->roles->pluck('permissions')}}</td>
+        <!-- @foreach($user->roles as $role)
+        
+        <td>$role->permissions</td>
+   
+       @endforeach -->
+     
      
         <td> <a href="{{route('user.profile',$user->id)}}"><span class="button">Edit</span></a></td>
     </tr>
