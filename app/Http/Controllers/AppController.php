@@ -16,6 +16,17 @@ class AppController extends Controller
     public function admin()
     {
         $users = User::with('roles')->get();
+        
+        foreach($users as $user){
+            foreach($user->roles as $role)
+            {
+               //return $role->permissions;
+       
+            }
+        
+        }
+
+      
       
     	return view('admin',compact('users'));
     }
