@@ -58,6 +58,15 @@ Route::group(['roles'=>['Admin']],function(){
         'as'   => 'role.permissions.update',
     ]);
 
+    Route::get('/',[
+        'uses'=>'AppController@create_role',
+        'as' => 'create.role'
+    ]);
+    Route::post('/',[
+        'uses'=>'AppController@role_store',
+        'as' => 'role.store'
+    ]);
+
 });
 
 Route::group(['roles'=>'User'],function(){

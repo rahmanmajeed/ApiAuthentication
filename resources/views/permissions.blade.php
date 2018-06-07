@@ -2,8 +2,10 @@
 
 @section('content')
 <div class="container">
+<a href="{{route('create.role')}}" class="btn btn-success">+Create New Role</a><br>
     <div class="row justify-content-center">
-        <div class="col-md-10">
+    
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Role Permissions</div>
 

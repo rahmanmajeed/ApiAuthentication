@@ -26,8 +26,6 @@ class AppController extends Controller
         
         }
 
-      
-      
     	return view('admin',compact('users'));
     }
 
@@ -50,6 +48,46 @@ class AppController extends Controller
         $roles = Role::all();
         
     	return view('role_assign',compact('user','roles'));
+    }
+
+    public function create_role()
+    {
+        return view('role_create');
+    }
+
+    public function role_store(Request $request)
+    {
+        $request->validate([
+            'role_name'=>'required',
+            'slug'=>'required | unique:roles',
+            'role_des'=>'required',
+            'permsn_name1'=>'required',
+            'permsn_name2'=>'required',
+            'permsn_name3'=>'required',
+            'permsn_name4'=>'required',
+            
+        ],[
+            'role_name.required'=>'Enter Role Name',
+            'slug.required'=>'Enter Role Slug',
+            'slug.unique'=>'Role Slug must be Unique',
+            'role_des.required'=>'Enter Role Description',
+            'permsn_name1.required'=>'Role Permission Name',
+            'permsn_name2.required'=>'Role Permission Name',
+            'permsn_name3.required'=>'Role Permission Name',
+            'permsn_name4.required'=>'Role Permission Name',
+        ]);
+         $role=new Role;
+         $role->name=$request->role_name;
+         $role->slug=$request->slug;
+         $role->description=$request->role_des;
+         $role->permissions=array($request->permsn_name1=>$request->permsn1=='true' ? true : false,
+                                 $request->permsn_name2=>$request->permsn2=='true' ? true : false,
+                                 $request->permsn_name3=>$request->permsn3=='true' ? true : false,
+                                 $request->permsn_name4=>$request->permsn4=='true' ? true : false);
+         $role->save();
+
+        return redirect()->route('role.permissions')->with('status','Role Created Successfully !!!');
+        
     }
 
 
